@@ -3,21 +3,37 @@
   "author": "Naner Nunes",
   "version": "1.0.0",
   "type": "commonjs",
-  "main": "main.js",
+  "main": "dist/main.js",
+  "description": "Replacement for Docker Desktop",
   "scripts": {
     "build": "tsc",
-    "start": "npm run build && electron ./dist/main.js",
+    "mac-build": "npm run build && electron-builder --mac",
+    "start": "npm run build && DEV_MODE=true electron ./dist/main.js",
     "test": "jest --config=jest.config.ts"
+  },
+  "build": {
+    "icon": "assets/podman.png",
+    "extraFiles": [
+      {
+        "from": "assets",
+        "to": "resources",
+        "filter": ["**/*"]
+      }
+    ],
+    "directories": {
+      "output": "releases/${platform}/${arch}"
+    }
   },
   "license": "MIT",
   "dependencies": {
-    "electron": "^19.0.7",
     "nodect": "^1.0.5",
     "yaml": "^2.1.1"
   },
   "devDependencies": {
     "@types/jest": "^28.1.4",
     "@types/node": "^18.0.1",
+    "electron": "^19.0.7",
+    "electron-builder": "^23.1.0",
     "jest": "^28.1.2",
     "prettier": "^2.7.1",
     "ts-jest": "^28.0.5",

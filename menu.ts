@@ -1,4 +1,4 @@
-import { Menu } from 'electron'
+import { app, Menu } from 'electron'
 
 import { useImage, useContext, usePodman } from './hooks'
 
@@ -8,7 +8,6 @@ const [getContexts, getCurrentContext, setCurrentContext] = useContext()
 
 const running = getImage('green')
 const pending = getImage('yellow')
-const machine = getMachine()
 
 const getContextItems = () => {
     const currentContext = getCurrentContext()
@@ -25,9 +24,10 @@ const getContextItems = () => {
 const getContextMenu = () => {
     const contextMenu = Menu.buildFromTemplate([
         {
+            id: 'podman',
             type: 'normal',
             label: 'Podman Desktop is running',
-            icon: machine.Running ? running : pending,
+            icon: getMachine().Running ? running : pending,
         },
         { type: 'normal', label: 'Kubernetes is starting', icon: pending, enabled: false },
         { type: 'separator' },
@@ -47,7 +47,12 @@ const getContextMenu = () => {
         { type: 'submenu', id: 'kubernetes', label: 'Kubernetes', submenu: getContextItems() },
         { type: 'separator' },
         { type: 'normal', label: 'Restart', accelerator: 'Cmd+R', enabled: false },
-        { type: 'normal', label: 'Quit Podman Desktop', accelerator: 'Cmd+Q', enabled: false },
+        {
+            type: 'normal',
+            label: 'Quit Podman Desktop',
+            accelerator: 'Cmd+Q',
+            click: () => app.exit(0),
+        },
     ])
 
     contextMenu.on('menu-will-show', () => {

@@ -18,7 +18,7 @@ interface MachineProps {
 
 const usePodman = (): [() => MachineProps] => {
     const getMachine = () => {
-        const stdout = useCommand(`podman machine list --format json`)
+        const stdout = useCommand(`/usr/local/bin/podman machine list --format json`)
         return JSON.parse(stdout)[0]
     }
 

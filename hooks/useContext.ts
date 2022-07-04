@@ -11,8 +11,8 @@ const getContexts = (): string[] => {
 }
 
 const useContext = (): [Function, Function, Function] => {
-    const getCurrentContext = () => useCommand(`kubectl config current-context`)
-    const setCurrentContext = (context) => useCommand(`kubectl config use-context ${context}`)
+    const getCurrentContext = () => useCommand(`/usr/local/bin/kubectl config current-context`)
+    const setCurrentContext = (context) => useCommand(`/usr/local/bin/kubectl config use-context ${context}`)
 
     return [getContexts, getCurrentContext, setCurrentContext]
 }
